@@ -1,12 +1,28 @@
-import React from "react";
+import { useNavigate } from "react-router-dom";
 
-const effortColors = {
-  Low: "bg-green-500",
-  Moderate: "bg-yellow-500",
-  High: "bg-red-500",
-};
+ const effortColors = {
+    low: "bg-green-500",
+    moderate: "bg-yellow-500",
+    high: "bg-red-500",
+  };
 
-const SpellCard = ({ spell, onCast }) => {
+  // function getEffortColor(effort) {
+  //   const numEffort = Number(effort);
+  //   if (numEffort >= 8) return effortColors.high;
+  //   if (numEffort >= 4) return effortColors.moderate;
+  //   return effortColors.low;};
+
+
+const SpellCard = ({ spell, onCast }) => {  
+  const navigate = useNavigate();
+  // const effortClass = getEffortColor(spell.effort);
+
+ 
+  const handleEditClick = (e) => {
+    e.stopPropagation(); // prevent triggering onCast
+    navigate(`/edit-spell/${spell.id}`);
+  };
+
   return (
     <div
       onClick={() => onCast(spell)}
@@ -35,7 +51,7 @@ const SpellCard = ({ spell, onCast }) => {
         <span
           className={`text-white px-3 py-1 rounded-full font-semibold shadow-md ${effortColors[spell.effort]}`}
         >
-          Effort: {spell.effort}
+           Effort: {spell.effort}
         </span>
         {spell.tags.map((tag) => (
           <span
@@ -46,6 +62,14 @@ const SpellCard = ({ spell, onCast }) => {
           </span>
         ))}
       </div>
+
+      {/* Edit button */}
+      <button
+        onClick={handleEditClick}
+        className="btn btn-sm btn-outline btn-secondary text-white border-purple-400 hover:border-yellow-400 transition"
+      >
+        Edit
+      </button>
     </div>
   );
 };

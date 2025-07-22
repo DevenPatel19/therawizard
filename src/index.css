@@ -13,3 +13,17 @@
   }
 }
 
+@keyframes brightPulse {
+  0%, 100% {
+    box-shadow: 0 0 10px 4px rgba(252, 211, 77, 0.7);
+    opacity: 1;
+  }
+  50% {
+    box-shadow: 0 0 25px 10px rgba(252, 211, 77, 1);
+    opacity: 0.8;
+  }
+}
+
+.bright-pulse {
+  animation: brightPulse 1.5s ease-in-out infinite;
+}

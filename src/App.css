@@ -40,3 +40,20 @@
 .read-the-docs {
   color: #888;
 }
+
+.card {
+  background-color: rgba(255, 255, 255, 0.1); /* very transparent white */
+  backdrop-filter: blur(8px);
+}
+
+/* Add to your global CSS or index.css */
+.badge-outline.cursor-pointer:hover {
+  box-shadow: 0 0 8px 2px rgba(147, 112, 219, 0.8); /* purple glow */
+  transition: box-shadow 0.3s ease;
+}
+
+.input,
+.textarea,
+.select {
+  text-shadow: 0 0 3px rgba(0, 0, 0, 0.6);
+}

@@ -1,21 +1,19 @@
-import React, { useRef, useEffect } from 'react';
+import React, { useEffect, useRef } from "react";
 
-const MagicalParticles = () => {
+const MagicalParticles = ({ flySpell }) => {
   const canvasRef = useRef(null);
   const particles = useRef([]);
-  const explosions = useRef([]);
 
   useEffect(() => {
     const canvas = canvasRef.current;
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext("2d");
 
     const resizeCanvas = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
     };
-
     resizeCanvas();
-    window.addEventListener('resize', resizeCanvas);
+    window.addEventListener("resize", resizeCanvas);
 
     const createParticle = () => ({
       x: Math.random() * canvas.width,
@@ -23,31 +21,18 @@ const MagicalParticles = () => {
       radius: Math.random() * 2 + 1,
       dx: Math.random() * 0.5 - 0.25,
       dy: Math.random() * 0.5 - 0.25,
-      opacity: Math.random() * 0.5 + 0.5, // range: 0.5–1
+      opacity: Math.random(),
     });
 
-    const createExplosion = (x, y) => {
-      const count = 40;
-      for (let i = 0; i < count; i++) {
-        const angle = Math.random() * Math.PI * 2;
-        const speed = Math.random() * 3 + 1;
-        explosions.current.push({
-          x,
-          y,
-          radius: Math.random() * 2 + 1,
-          dx: Math.cos(angle) * speed,
-          dy: Math.sin(angle) * speed,
-          opacity: 1,
-        });
-      }
-    };
+    particles.current = Array.from({ length: 100 }, createParticle);
 
-    particles.current = Array.from({ length: 120 }, createParticle);
+    // Flying spell particle data
+    let flyingParticle = null;
 
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-      // Floating gold particles
+      // Animate regular particles
       particles.current.forEach((p) => {
         p.x += p.dx;
         p.y += p.dy;
@@ -59,55 +44,67 @@ const MagicalParticles = () => {
 
         ctx.beginPath();
         ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-        ctx.fillStyle = `rgba(255, 215, 0, ${p.opacity})`; // gold
+        ctx.fillStyle = `rgba(173, 216, 230, ${p.opacity})`; // Light blue
         ctx.fill();
       });
 
-      // Click explosion particles
-      explosions.current.forEach((p, index) => {
-        p.x += p.dx;
-        p.y += p.dy;
-        p.opacity -= 0.02;
+      // Animate flying spell if present
+      if (flyingParticle) {
+        flyingParticle.x += flyingParticle.dx;
+        flyingParticle.y += flyingParticle.dy;
+        flyingParticle.radius *= 0.98; // shrink gradually
+        flyingParticle.opacity *= 0.95; // fade gradually
 
-        if (p.opacity <= 0) {
-          explosions.current.splice(index, 1);
-        } else {
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-          ctx.fillStyle = `rgba(255, 105, 180, ${p.opacity})`; // hot pink
-          ctx.fill();
+        ctx.beginPath();
+        ctx.arc(
+          flyingParticle.x,
+          flyingParticle.y,
+          flyingParticle.radius,
+          0,
+          Math.PI * 2
+        );
+        ctx.fillStyle = `rgba(255, 215, 0, ${flyingParticle.opacity})`; // gold
+        ctx.shadowColor = "gold";
+        ctx.shadowBlur = 15;
+        ctx.fill();
+
+        // If too small or transparent, remove flying particle
+        if (flyingParticle.radius < 0.5 || flyingParticle.opacity < 0.1) {
+          flyingParticle = null;
         }
-      });
+      }
 
       requestAnimationFrame(animate);
     };
 
-    // Handle click explosion
-    const handleClick = (e) => {
-      const rect = canvas.getBoundingClientRect();
-      createExplosion(e.clientX - rect.left, e.clientY - rect.top);
-    };
-
-    canvas.addEventListener('click', handleClick);
     animate();
 
+    // Listen for flySpell prop changes to trigger flying particle
+    if (flySpell && flySpell.position) {
+      flyingParticle = {
+        x: flySpell.position.x,
+        y: flySpell.position.y,
+        radius: 15,
+        dx: 0,
+        dy: -3, // flying upwards
+        opacity: 1,
+      };
+    }
+
     return () => {
-      window.removeEventListener('resize', resizeCanvas);
-      canvas.removeEventListener('click', handleClick);
+      window.removeEventListener("resize", resizeCanvas);
     };
-  }, []);
+  }, [flySpell]); // re-run when flySpell changes
 
   return (
     <canvas
       ref={canvasRef}
       style={{
-        position: 'fixed',
+        position: "fixed",
         top: 0,
         left: 0,
         zIndex: -1,
-        width: '100%',
-        height: '100%',
-        pointerEvents: 'auto', // needed for click events
+        pointerEvents: "none",
       }}
     />
   );
