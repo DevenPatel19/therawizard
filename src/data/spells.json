@@ -1,0 +1,82 @@
+[
+  {
+    "name": "Deep Breath",
+    "description": "Calms the body and mind with focused breathing.",
+    "howToPerform": "Inhale slowly through your nose for 4 seconds, hold for 4 seconds, exhale through your mouth for 4 seconds. Repeat 4 times.",
+    "tags": ["anxiety", "anger", "overwhelm"],
+    "icon": "🌬️",
+    "effort": "Low"
+  },
+  {
+    "name": "Grounding Stone",
+    "description": "Re-centers your awareness using the five senses.",
+    "howToPerform": "Name 5 things you can see, 4 you can touch, 3 you can hear, 2 you can smell, and 1 you can taste.",
+    "tags": ["dissociation", "anxiety", "panic"],
+    "icon": "🪨",
+    "effort": "Moderate"
+  },
+  {
+    "name": "Mood Shift",
+    "description": "Alters your emotional state through movement and music.",
+    "howToPerform": "Play an upbeat song and move your body for at least 2 minutes—dance, stretch, or jump.",
+    "tags": ["sadness", "lethargy", "frustration"],
+    "icon": "🎵",
+    "effort": "Moderate"
+  },
+  {
+    "name": "Memory Mirror",
+    "description": "Summons positive memories to counter dark thoughts.",
+    "howToPerform": "Close your eyes and recall a vivid, joyful memory. Imagine the sounds, smells, and people.",
+    "tags": ["depression", "worthlessness", "shame"],
+    "icon": "🪞",
+    "effort": "Low"
+  },
+  {
+    "name": "Thought Tamer",
+    "description": "Silences distorted thinking with rational counterspells.",
+    "howToPerform": "Write down a negative thought, then list 1–2 facts that challenge or contradict it.",
+    "tags": ["anxiety", "guilt", "self-doubt"],
+    "icon": "📜",
+    "effort": "High"
+  },
+  {
+    "name": "Armor of Gratitude",
+    "description": "Protects against negativity by cultivating appreciation.",
+    "howToPerform": "Write down three things you’re grateful for and why they matter to you.",
+    "tags": ["negativity", "hopelessness", "stress"],
+    "icon": "🛡️",
+    "effort": "Low"
+  },
+  {
+    "name": "Silent Sanctuary",
+    "description": "Creates mental stillness through short meditation.",
+    "howToPerform": "Sit quietly for 2–5 minutes. Focus on your breath. If your mind wanders, gently return to the breath.",
+    "tags": ["stress", "overwhelm", "mental fatigue"],
+    "icon": "🧘",
+    "effort": "Moderate"
+  },
+  {
+    "name": "Emotion Channel",
+    "description": "Directs intense emotion into creative outlets.",
+    "howToPerform": "Draw, write, or create something that expresses how you feel, without judging the outcome.",
+    "tags": ["anger", "sadness", "confusion"],
+    "icon": "🎨",
+    "effort": "High"
+  },
+  {
+    "name": "Hydration Heal",
+    "description": "Restores clarity and calm with water.",
+    "howToPerform": "Drink a glass of water slowly while focusing on the sensation. Bonus: splash your face with cool water.",
+    "tags": ["fatigue", "stress", "foggy thinking"],
+    "icon": "💧",
+    "effort": "Low"
+  },
+  {
+    "name": "Connection Beacon",
+    "description": "Calls upon support by reaching out to someone you trust.",
+    "howToPerform": "Send a message, make a call, or talk to someone about what you're going through.",
+    "tags": ["loneliness", "isolation", "shame"],
+    "icon": "📡",
+    "effort": "High"
+  }
+]
