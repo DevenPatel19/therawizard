@@ -5,7 +5,7 @@
 
 
 ### Demo Video
-[🎥 Watche Demo Video]()
+[🎥 Watch Demo Video]()
 
 ## Install & Run Instructions
 
