@@ -1,5 +1,12 @@
 # Spellweaver
 
+### Screenshots
+![Spellbook UI](src/assets/screenshots.png)
+
+
+### Demo Video
+[🎥 Watche Demo Video]()
+
 ## Install & Run Instructions
 
 1. Clone or download the repository.  
