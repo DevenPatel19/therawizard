@@ -1,19 +1,40 @@
+// src/pages/SpellBook.jsx
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import clsx from "clsx";
 import spellsData from "../data/spells.json";
 import MagicalParticles from "../components/ui/MagicalParticles";
+import JournalEntry from "../components/JournalEntry";
 
-export default function SpellBook() {
+const MODAL_FADE_DURATION_MS = 300;
+
+export default function SpellBook({ onJournalSave }) {
   const [spells, setSpells] = useState([]);
   const [castingSpell, setCastingSpell] = useState(null);
   const [flySpell, setFlySpell] = useState(null);
+  const [showJournalModal, setShowJournalModal] = useState(false);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [journalSpell, setJournalSpell] = useState(null);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     setSpells(spellsData);
   }, []);
 
-  const navigate = useNavigate();
+  const openModal = (spell) => {
+    setJournalSpell(spell);
+    setShowJournalModal(true);
+    // Delay modal visible state for fade-in effect
+    setTimeout(() => setModalVisible(true), 20);
+  };
+
+  const closeModal = () => {
+    // Start fade out
+    setModalVisible(false);
+    // After fade out duration, hide modal completely
+    setTimeout(() => setShowJournalModal(false), MODAL_FADE_DURATION_MS);
+  };
 
   const handleCast = (spell, event) => {
     setCastingSpell(spell.name);
@@ -23,6 +44,9 @@ export default function SpellBook() {
       y: rect.top + rect.height / 2,
     };
     setFlySpell({ name: spell.name, position });
+
+    // Wait for casting animation to finish before showing modal
+    setTimeout(() => openModal(spell), 1500);
 
     setTimeout(() => {
       setCastingSpell(null);
@@ -50,26 +74,31 @@ export default function SpellBook() {
           📖 Spellbook
         </h1>
         <div className="text-center mb-6">
-          <button className="btn btn-accent" onClick={() => navigate("/spells/new")}>
+          <button
+            className="btn btn-accent"
+            onClick={() => navigate("/spells/new")}
+          >
             Record a new Spell
           </button>
-          <button className="btn btn-accent m-4" onClick={() => navigate("/journals/new")}>
+          <button
+            className="btn btn-accent m-4"
+            onClick={() => navigate("/journals")}
+          >
             Spell Notes
           </button>
-
         </div>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {spells.map((spell) => (
             <div
-              key={spell.id}  // use id here
+              key={spell.id}
               onClick={(e) => handleCast(spell, e)}
               className={clsx(
                 "cursor-pointer rounded-xl border border-violet-500 shadow-lg transition-all duration-300 hover:shadow-2xl hover:scale-105",
-                castingSpell === spell.name && "bright-pulse border-4 border-yellow-400 scale-110",
+                castingSpell === spell.name &&
+                  "bright-pulse border-4 border-yellow-400 scale-110",
                 "bg-black bg-opacity-20 backdrop-blur-md"
               )}
-              style={{ backgroundColor: "rgba(0,0,0,0.2)", backdropFilter: "blur(10px)" }}
               title={`Cast ${spell.name}`}
             >
               <div className="p-6 space-y-3 text-gray-200">
@@ -84,17 +113,19 @@ export default function SpellBook() {
                 <p className="text-sm italic">{spell.description}</p>
                 <div className="flex flex-wrap gap-2 mt-2">
                   {spell.tags.map((tag) => (
-                    <span key={tag} className="badge badge-accent badge-outline text-xs">
+                    <span
+                      key={tag}
+                      className="badge badge-accent badge-outline text-xs"
+                    >
                       #{tag}
                     </span>
                   ))}
                 </div>
 
-                {/* Add Edit button */}
                 <button
                   type="button"
                   onClick={(e) => {
-                    e.stopPropagation(); // Prevent casting when clicking edit
+                    e.stopPropagation();
                     navigate(`/spells/edit/${spell.id}`);
                   }}
                   className="mt-3 btn btn-sm btn-outline btn-warning w-full"
@@ -112,6 +143,48 @@ export default function SpellBook() {
           ))}
         </div>
       </div>
+
+      {/* Journal Entry Modal */}
+      {showJournalModal && (
+        <div
+          className="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-50 transition-opacity duration-300"
+          style={{
+            opacity: modalVisible ? 1 : 0,
+            pointerEvents: modalVisible ? "auto" : "none",
+          }}
+          onClick={closeModal}
+        >
+          <div
+            className="modal-box w-11/12 max-w-2xl bg-white dark:bg-slate-800 p-6 rounded-lg shadow-lg"
+            onClick={(e) => e.stopPropagation()}
+            style={{
+              opacity: modalVisible ? 1 : 0,
+              transform: modalVisible ? "translateY(0)" : "translateY(20px)",
+              transition: `opacity ${MODAL_FADE_DURATION_MS}ms ease, transform ${MODAL_FADE_DURATION_MS}ms ease`,
+            }}
+          >
+            <h3 className="font-bold text-lg mb-4">Log Your Spell Experience 📝</h3>
+            <JournalEntry
+              spell={journalSpell}
+              onSave={(entry) => {
+                const entryWithSpell = {
+                  ...entry,
+                  spell: journalSpell,
+                  date: new Date().toISOString(),
+                };
+                onJournalSave(entryWithSpell); // notify parent
+                console.log("Journal saved:", entryWithSpell);
+                closeModal();
+              }}
+            />
+            <div className="modal-action mt-4 flex justify-end">
+              <button className="btn btn-error" onClick={closeModal}>
+                Cancel
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
