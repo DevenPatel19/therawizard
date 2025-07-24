@@ -72,3 +72,28 @@
 - Refine UI/UX for journal editing modal
 
 - Explore adding calendar or timeline view for journal notes visualization
+
+
+
+CHEATER PROMPT
+I’m working on Spellweaver, a React + Vite + Tailwind/DaisyUI app. Here’s where I am:
+
+• **ROADMAP.md**  
+  - Sprint 1 ✅ Basic Spellbook UI, spell casting animation, MagicalParticles, splash & navigation  
+  - Sprint 2 🔄 Journal & Mood Tracking in progress: UI, persistence, list/edit  
+  - Remaining: tag filtering, localStorage persistence for spells, confirmation dialogs, page transitions, theme toggle.
+
+• **DEVLOG.md**  
+  - July 25: JournalIndex built with edit modal and animations  
+  - Next: persist journal entries, filters/search, calendar view, UI polish
+
+**Next Tasks**:  
+1. Implement tag-based filtering UI in `SpellBook.jsx`.  
+2. Persist spells (and journal entries) to `localStorage`, loading on app start.  
+3. Add a “Delete Spell” button on each `SpellCard` with a confirmation dialog.  
+4. Add smooth page transitions using Framer Motion between routes.  
+5. Add a light/dark theme switcher using DaisyUI themes.
+
+Please guide me step-by-step, teaching me how to implement each feature in turn.  
+
+Continue our Spellweaver project based on the latest devlog and updated roadmap. Focus on maintaining chronological order of entries (newest first), use ISO timestamps, and prioritize features listed in Sprint 2. We're currently integrating journaling and mood tracking. Show me next actionable items or implementation support as needed.

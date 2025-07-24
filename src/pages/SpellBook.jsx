@@ -75,7 +75,7 @@ export default function SpellBook({ onJournalSave }) {
         </h1>
         <div className="text-center mb-6">
           <button
-            className="btn btn-accent"
+            className="btn btn-info"
             onClick={() => navigate("/spells/new")}
           >
             Record a new Spell
@@ -170,7 +170,7 @@ export default function SpellBook({ onJournalSave }) {
                 const entryWithSpell = {
                   ...entry,
                   spell: journalSpell,
-                  date: new Date().toISOString(),
+                  timestamp: new Date().toISOString(),
                 };
                 onJournalSave(entryWithSpell); // notify parent
                 console.log("Journal saved:", entryWithSpell);

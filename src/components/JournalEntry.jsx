@@ -1,7 +1,7 @@
 // src/components/JournalEntry.jsx
 import React, { useEffect, useState } from "react";
 
-const moods = ["😊 Happy", "😔 Sad", "😡 Angry", "😌 Calm", "😕 Confused", "🤩 Excited"];
+const moods = ["happy", "sad", "angry", "calm", "confused", "excited"];
 
 const JournalEntry = ({ spell, onSave }) => {
   const [moodBefore, setMoodBefore] = useState("");
@@ -24,8 +24,8 @@ const JournalEntry = ({ spell, onSave }) => {
       moodBefore,
       moodAfter,
       notes,
+      timestamp: new Date().toISOString(),
       usedSpell,
-      timestamp,
     });
     // Reset form (optional)
     setMoodBefore("");
@@ -33,23 +33,42 @@ const JournalEntry = ({ spell, onSave }) => {
     setNotes("");
   };
 
+  const getMoodIcon = (mood) => {
+    switch (mood) {
+      case "happy":
+        return "😊";
+      case "sad":
+        return "😢";
+      case "angry":
+        return "😠";
+      case "calm":
+        return "😌";
+      case "confused":
+        return "😕";
+      case "excited":
+        return "🤩";
+      default:
+        return "❓";
+    }
+  };
+
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
       <div>
         <label className="font-medium">Mood Before:</label>
         <select
-          className="select select-bordered w-full"
-          value={moodBefore}
-          onChange={(e) => setMoodBefore(e.target.value)}
-          required
-        >
-          <option value="">Select...</option>
-          {moods.map((m) => (
-            <option key={m} value={m}>
-              {m}
-            </option>
-          ))}
-        </select>
+  className="select select-bordered w-full"
+  value={moodBefore}
+  onChange={(e) => setMoodBefore(e.target.value)}
+  required
+>
+  <option value="">Select...</option>
+  {moods.map((m) => (
+    <option key={m} value={m}>
+      {getMoodIcon(m)} {m.charAt(0).toUpperCase() + m.slice(1)}
+    </option>
+  ))}
+</select>
       </div>
 
       <div>
@@ -63,7 +82,7 @@ const JournalEntry = ({ spell, onSave }) => {
           <option value="">Select...</option>
           {moods.map((m) => (
             <option key={m} value={m}>
-              {m}
+              {getMoodIcon(m)} {m.charAt(0).toUpperCase() + m.slice(1)}
             </option>
           ))}
         </select>

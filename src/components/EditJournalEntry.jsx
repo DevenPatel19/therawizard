@@ -27,7 +27,7 @@ export default function EditJournalEntry({ entry, onUpdate, onCancel }) {
             <label className="block font-semibold">Spell Used</label>
             <input
               type="text"
-              value={entry.spell.name}
+              value={entry.spell?.name || entry.usedSpell || ""}
               disabled
               className="input input-bordered w-full"
             />
@@ -36,7 +36,7 @@ export default function EditJournalEntry({ entry, onUpdate, onCancel }) {
             <label className="block font-semibold">Date</label>
             <input
               type="text"
-              value={new Date(entry.date).toLocaleString()}
+              value={new Date(entry.timestamp || entry.date).toLocaleString()}
               disabled
               className="input input-bordered w-full"
             />
