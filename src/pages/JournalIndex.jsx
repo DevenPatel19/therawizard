@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import MagicalParticles from "../components/ui/MagicalParticles";
 
 // Map moods to emoji
 const getMoodIcon = (mood) => {
@@ -39,21 +40,25 @@ const JournalIndex = () => {
 
   // Filter & sort  entries by moodAfter (case-insensitive)
   const filteredEntries = journalEntries.filter((entry) => {
-  if (filterMood === "all") return true;
-  const mood = entry?.moodAfter?.toLowerCase();
-  return mood === filterMood;
-});
+    if (filterMood === "all") return true;
+    const mood = entry?.moodAfter?.toLowerCase();
+    return mood === filterMood;
+  });
 
-const sortedEntries = filteredEntries.slice().sort((a, b) => {
-  return new Date(b.timestamp) - new Date(a.timestamp);
-});
+  const sortedEntries = filteredEntries.slice().sort((a, b) => {
+    return new Date(b.timestamp) - new Date(a.timestamp);
+  });
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-950 to-slate-900 text-white p-6">
-      <div className="max-w-4xl mx-auto">
-        <div className="flex justify-between items-center mb-6">
-          <h1 className="text-3xl font-bold">Journal Entries</h1>
-        </div>
+    <div className="min-h-screen text-white p-6">
+    {/* Particle canvas is fixed so it covers whole screen */}
+<MagicalParticles />
+    <div className="max-w-4xl mx-auto bg-gradient-to-b from-indigo-950 to-slate-900 p-6 rounded-lg shadow-lg">
+      {/* Added padding, background, rounded corners, and shadow here */}
+
+      <div className="flex justify-between items-center mb-6">
+        <h1 className="text-3xl font-bold">Journal Entries</h1>
+      </div>
 
         {/* Filter by Mood */}
         <div className="mb-4 space-x-2 overflow-x-auto whitespace-nowrap">
@@ -88,7 +93,7 @@ const sortedEntries = filteredEntries.slice().sort((a, b) => {
               >
                 <div className="flex justify-between items-center">
                   <h2 className="text-xl font-semibold text-violet-300">
-                    {entry.usedSpell ||entry.spell ||"Unknown Spell"}
+                    {entry.usedSpell || entry.spell || "Unknown Spell"}
                   </h2>
                   <span className="text-sm text-slate-400">
                     {entry.timestamp && !isNaN(new Date(entry.timestamp).getTime())

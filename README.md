@@ -21,7 +21,7 @@ npm run dev
 Open your browser and go to http://localhost:5173 (or the port shown in your terminal).
 
 ## Journaling Tool Disguised as Magic and Sorcery
-Spellweaver is a therapeutic journaling app designed to help users remember and practice coping skills through an engaging "magic" theme. It allows users to journal their personal journey and empowers therapists to monitor their patients' use of coping techniques and guide them in developing new ones.
+Spellweaver is a therapeutic journaling app designed to help users remember and practice coping skills through an engaging "magic" theme. It allows users to journal their personal use of coping skills and empowers therapists to monitor their patients' use of theraputic techniques and guide them in developing new ones as well as using "spells" they've already crafted.
 
 ## Intent
 The core intent of this project is to provide a practical, user-friendly tool that helps patients apply what they learn in therapy to their everyday lives. Supporting therapists in their critical role of patient care is central to the social good this app aims to promote.

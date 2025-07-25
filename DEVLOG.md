@@ -1,77 +1,67 @@
-# DEVLOG.md
+---
 
-## 🔮 Developer Log: Spellweaver App
+# 🗺️ Roadmap
 
-### July 22
-**Focus**: Spellbook UI, casting interaction, MagicalParticles integration.
+> Vision-aligned priorities for Spellweaver MVP and beyond.
 
-**Progress:**
-- SpellCard abstraction and casting logic done
-- Mystical theme applied (fonts, shimmer, particles)
-- Grid-based Spellbook UI finished
-
-**Next:**
-- Add mood tracking to journal entries
-- Hook in persistent spell storage (localStorage)
-- Implement tag-based filtering for spell visibility
+### ✅ Phase 1: Core Functionality (COMPLETE)
+- [x] Journal entry creation modal with spell, mood, notes.
+- [x] Save entries to `public/journalEntries.json`.
+- [x] Sort entries by most recent first.
+- [x] Display journal index and detailed view.
+- [x] Basic spell selector integration.
 
 ---
 
-### July 23
-**Focus**: Sprint Progress Review + Suggested Enhancements
-
-**What's Done:**
-- Splash screen & navigation
-- Spell creation, editing, and pop-up info view
-- Sprint 1 almost complete (missing: auth, tags)
-
-**To Do Next:**
-- ✅ Tag filter system in SpellBook
-- ✅ Persistent spell data via localStorage
-- ✅ Confirmation dialog for delete
-- ✅ Smooth page transitions (Framer Motion)
-- ✅ Theme toggle: light/dark with DaisyUI
+### 🚧 Phase 2: Editor + State Management (In Progress)
+- [ ] Add **EditJournal** form with `usedSpell`, moodBefore, moodAfter, notes.
+- [ ] “Update” button on entry details view.
+- [ ] Auto-sync form values from clicked entry.
+- [ ] Confirm updates overwrite `journalEntries.json` locally.
+- [ ] Animate entry updates (optional).
 
 ---
 
-### July 24
-**Focus**: Plan journal entry tracking
+### 🔮 Phase 3: Mood Visualization + Tagging
+- [ ] Mood picker with emoji + color ring.
+- [ ] Create standard list of moods (20–30).
+- [ ] Mood frequency analysis (tag cloud or chart).
+- [ ] Track mood change patterns over time.
 
-**Planning Notes:**
-- JournalEntry component
-  - Mood before/after dropdown
-  - Notes text area
-  - Link to spell usage
-- Consider timeline or calendar-style view
-- Mood visual feedback (emoji / color scale)
+---
 
+### 🧙 Phase 4: Spell Therapy & Meta Features
+- [ ] Therapist review + approval flow.
+- [ ] Spell effectiveness tracking.
+- [ ] Custom spells + categories.
+- [ ] Prompt saving and reuse (“incantations”).
 
-### July 25
-**Focus**: Journal Entry Management & Editing Workflow
+---
 
-**Progress**:
+### 🌐 Phase 5: Backend + Sync
+- [ ] Setup lightweight Express server or Firebase.
+- [ ] Sync journal entries to a database (MongoDB, Supabase, etc.).
+- [ ] Auth system (optional).
+- [ ] API endpoints for fetching spells, moods, entries.
 
-- Built JournalIndex page displaying all journal entries
+---
 
-- Added “Update” button per entry to open editable modal form
+# 🧍 Daily Stand-Up Template
 
-- Edit modal allows modifying notes and mood before/after; disables date and spell used fields
+> Use for async updates, Slack posts, or GitHub discussion threads.
 
-- Integrated journal entry save & update handlers in App.jsx for global state management
+```md
+## 📅 YYYY-MM-DDTHH:MM:SSZ
 
-- Fixed routing and prop passing to enable seamless navigation between SpellBook and JournalIndex
+**What I did yesterday:**
+- ...
 
-- Added fade animations and modal transitions for improved UX
+**What I’m doing today:**
+- ...
 
-**Next**:
+**What’s blocking me:**
+- ...
 
-- Implement persistent storage for journal entries (localStorage or backend)
-
-- Add search and filter functionality on journal entries page
-
-- Refine UI/UX for journal editing modal
-
-- Explore adding calendar or timeline view for journal notes visualization
 
 
 

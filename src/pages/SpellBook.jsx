@@ -78,7 +78,7 @@ export default function SpellBook({ onJournalSave }) {
             className="btn btn-info"
             onClick={() => navigate("/spells/new")}
           >
-            Record a new Spell
+            Record a New Spell
           </button>
           <button
             className="btn btn-accent m-4"
