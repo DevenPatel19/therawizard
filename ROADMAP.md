@@ -25,7 +25,7 @@ Therapists (Spell Masters) can assign, approve, and track patient progress.
 - [x] Journal entry editing (except date/time/spell used)  
 - [ ] Predefined + custom moods with visuals *(basic emoji support done)*  
 - [ ] Basic spell usage analytics *(needs design decision)*  
-- [ ] Sort journal entries by most recent *(newly implemented)*
+- [x] Sort journal entries by most recent *(newly implemented)*
 
 ### ⏳ Sprint 3: Therapist & Patient Linking (3 weeks)  
 - [ ] Therapist account creation/login  

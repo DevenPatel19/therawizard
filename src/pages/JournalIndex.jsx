@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import MagicalParticles from "../components/ui/MagicalParticles";
+import EditJournalEntry from "../components/EditJournalEntry"; // Assuming you have this form component
 
-// Map moods to emoji
+// Mood icon map
 const getMoodIcon = (mood) => {
   switch (mood) {
     case "excited":
@@ -24,6 +25,7 @@ const getMoodIcon = (mood) => {
 const JournalIndex = () => {
   const [filterMood, setFilterMood] = useState("all");
   const [journalEntries, setJournalEntries] = useState([]);
+  const [editingEntry, setEditingEntry] = useState(null); // Track current entry being edited
 
   useEffect(() => {
     fetch("/journalEntries.json")
@@ -32,13 +34,10 @@ const JournalIndex = () => {
         return res.json();
       })
       .then((data) => setJournalEntries(data))
-      .catch((err) => {
-        console.error(err);
-        setJournalEntries([]); // fallback to empty
-      });
+      .catch(() => setJournalEntries([]));
   }, []);
 
-  // Filter & sort  entries by moodAfter (case-insensitive)
+  // Filter & sort
   const filteredEntries = journalEntries.filter((entry) => {
     if (filterMood === "all") return true;
     const mood = entry?.moodAfter?.toLowerCase();
@@ -49,18 +48,34 @@ const JournalIndex = () => {
     return new Date(b.timestamp) - new Date(a.timestamp);
   });
 
+  // Handler for saving updated entry
+  const handleUpdateEntry = (updatedEntry) => {
+    setJournalEntries((prevEntries) =>
+      prevEntries.map((entry) =>
+        entry.id === updatedEntry.id ? updatedEntry : entry
+      )
+    );
+    setEditingEntry(null);
+  };
+
+  // Handler for deleting entry
+  const handleDeleteEntry = (id) => {
+    if (window.confirm("Are you sure you want to delete this entry?")) {
+      setJournalEntries((prevEntries) =>
+        prevEntries.filter((entry) => entry.id !== id)
+      );
+    }
+  };
+
   return (
-    <div className="min-h-screen text-white p-6">
-    {/* Particle canvas is fixed so it covers whole screen */}
-<MagicalParticles />
-    <div className="max-w-4xl mx-auto bg-gradient-to-b from-indigo-950 to-slate-900 p-6 rounded-lg shadow-lg">
-      {/* Added padding, background, rounded corners, and shadow here */}
+    <div className="min-h-screen bg-gradient-to-b from-slate-950 to-slate-900 text-white p-6 relative">
+      <MagicalParticles />
+      <div className="max-w-4xl mx-auto">
+        <div className="flex justify-between items-center mb-6">
+          <h1 className="text-3xl font-bold">Journal Entries</h1>
+        </div>
 
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold">Journal Entries</h1>
-      </div>
-
-        {/* Filter by Mood */}
+        {/* Mood Filter */}
         <div className="mb-4 space-x-2 overflow-x-auto whitespace-nowrap">
           {["all", "excited", "happy", "calm", "confused", "sad", "angry"].map(
             (mood) => (
@@ -102,18 +117,48 @@ const JournalIndex = () => {
                   </span>
                 </div>
                 <p className="text-slate-300 mt-1">{entry.notes}</p>
-                <div className="mt-2 text-sm text-slate-400">
-                  <span className="mr-2">
-                    Mood Before: {getMoodIcon(entry.moodBefore)}{" "}
-                    {entry.moodBefore?.charAt(0).toUpperCase() + entry.moodBefore?.slice(1)}
-                  </span>
-                  <span>
-                    Mood After: {getMoodIcon(entry.moodAfter)}{" "}
-                    {entry.moodAfter?.charAt(0).toUpperCase() + entry.moodAfter?.slice(1)}
-                  </span>
+                <div className="mt-2 text-sm text-slate-400 flex justify-between items-center">
+                  <div>
+                    <span className="mr-2">
+                      Mood Before: {getMoodIcon(entry.moodBefore)}{" "}
+                      {entry.moodBefore?.charAt(0).toUpperCase() + entry.moodBefore?.slice(1)}
+                    </span>
+                    <span>
+                      Mood After: {getMoodIcon(entry.moodAfter)}{" "}
+                      {entry.moodAfter?.charAt(0).toUpperCase() + entry.moodAfter?.slice(1)}
+                    </span>
+                  </div>
+                  <div className="space-x-2">
+                    <button
+                      onClick={() => setEditingEntry(entry)}
+                      className="btn btn-sm btn-primary"
+                    >
+                      Edit
+                    </button>
+                    <button
+                      onClick={() => handleDeleteEntry(entry.id)}
+                      className="btn btn-sm btn-error"
+                    >
+                      Delete
+                    </button>
+                  </div>
                 </div>
               </div>
             ))}
+          </div>
+        )}
+
+        {/* Edit Modal */}
+        {editingEntry && (
+          <div className="fixed inset-0 bg-black bg-opacity-70 flex justify-center items-center z-50">
+            <div className="bg-slate-900 p-6 rounded-lg w-full max-w-lg">
+              <h3 className="text-xl font-bold mb-4 text-white">Edit Journal Entry</h3>
+              <EditJournalEntry
+                entry={editingEntry}
+                onSave={handleUpdateEntry}
+                onCancel={() => setEditingEntry(null)}
+              />
+            </div>
           </div>
         )}
       </div>

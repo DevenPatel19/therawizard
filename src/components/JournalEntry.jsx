@@ -1,11 +1,12 @@
 // src/components/JournalEntry.jsx
 import React, { useEffect, useState } from "react";
-
-const moods = ["happy", "sad", "angry", "calm", "confused", "excited"];
+import MoodSelector from "./Moodselector.jsx";
 
 const JournalEntry = ({ spell, onSave }) => {
   const [moodBefore, setMoodBefore] = useState("");
   const [moodAfter, setMoodAfter] = useState("");
+  const [customMoodBefore, setCustomMoodBefore] = useState("");
+  const [customMoodAfter, setCustomMoodAfter] = useState("");
   const [notes, setNotes] = useState("");
   const [usedSpell, setUsedSpell] = useState("");
   const [timestamp, setTimestamp] = useState("");
@@ -19,74 +20,45 @@ const JournalEntry = ({ spell, onSave }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+
+    const finalMoodBefore = customMoodBefore.trim() || moodBefore;
+    const finalMoodAfter = customMoodAfter.trim() || moodAfter;
+
     onSave({
       id: Date.now(),
-      moodBefore,
-      moodAfter,
+      moodBefore: finalMoodBefore,
+      moodAfter: finalMoodAfter,
       notes,
       timestamp: new Date().toISOString(),
       usedSpell,
     });
-    // Reset form (optional)
+
     setMoodBefore("");
     setMoodAfter("");
+    setCustomMoodBefore("");
+    setCustomMoodAfter("");
     setNotes("");
-  };
-
-  const getMoodIcon = (mood) => {
-    switch (mood) {
-      case "happy":
-        return "😊";
-      case "sad":
-        return "😢";
-      case "angry":
-        return "😠";
-      case "calm":
-        return "😌";
-      case "confused":
-        return "😕";
-      case "excited":
-        return "🤩";
-      default:
-        return "❓";
-    }
   };
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <div>
-        <label className="font-medium">Mood Before:</label>
-        <select
-  className="select select-bordered w-full"
-  value={moodBefore}
-  onChange={(e) => setMoodBefore(e.target.value)}
-  required
->
-  <option value="">Select...</option>
-  {moods.map((m) => (
-    <option key={m} value={m}>
-      {getMoodIcon(m)} {m.charAt(0).toUpperCase() + m.slice(1)}
-    </option>
-  ))}
-</select>
-      </div>
+      <MoodSelector
+        label="Mood Before"
+        selectedMood={moodBefore}
+        onChange={setMoodBefore}
+        customMood={customMoodBefore}
+        onCustomMoodChange={setCustomMoodBefore}
+        maxCustomLength={20}
+      />
 
-      <div>
-        <label className="font-medium">Mood After:</label>
-        <select
-          className="select select-bordered w-full"
-          value={moodAfter}
-          onChange={(e) => setMoodAfter(e.target.value)}
-          required
-        >
-          <option value="">Select...</option>
-          {moods.map((m) => (
-            <option key={m} value={m}>
-              {getMoodIcon(m)} {m.charAt(0).toUpperCase() + m.slice(1)}
-            </option>
-          ))}
-        </select>
-      </div>
+      <MoodSelector
+        label="Mood After"
+        selectedMood={moodAfter}
+        onChange={setMoodAfter}
+        customMood={customMoodAfter}
+        onCustomMoodChange={setCustomMoodAfter}
+        maxCustomLength={20}
+      />
 
       <div>
         <label className="font-medium">Notes:</label>
@@ -118,7 +90,16 @@ const JournalEntry = ({ spell, onSave }) => {
         />
       </div>
 
-      <button type="submit" className="btn btn-success w-full">
+      <button
+        type="submit"
+        className="btn btn-success w-full"
+        disabled={
+          !(
+            (customMoodBefore.trim() || moodBefore) &&
+            (customMoodAfter.trim() || moodAfter)
+          )
+        }
+      >
         Save Entry
       </button>
     </form>
