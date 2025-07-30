@@ -1,4 +1,4 @@
-# Spellweaver
+# Spellweaver - FrontEnd Demo
 
 ### Screenshots
 ![Spellbook UI](src/assets/screenshots.png)
