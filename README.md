@@ -14,10 +14,11 @@
 3. Install dependencies (if not done already):  
    ```bash
    npm install
+
 Run the development server:
-
+```bash
 npm run dev
-
+```
 Open your browser and go to http://localhost:5173 (or the port shown in your terminal).
 
 ## Journaling Tool Disguised as Magic and Sorcery
